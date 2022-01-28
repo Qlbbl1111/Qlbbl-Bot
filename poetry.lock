@@ -119,6 +119,17 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "giphypop"
+version = "0.3"
+description = "Python wrapper for Giphy API"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+requests = "*"
+
+[[package]]
 name = "idna"
 version = "3.3"
 description = "Internationalized Domain Names in Applications (IDNA)"
@@ -229,7 +240,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "f4baa4a1541b7ef755bddb6557f1b3fcf10f0cb9d9cdf9cf42ccb949f2f6e097"
+content-hash = "f3d7e122033b2c8921d59d3513efb60825025a2a19640292a04f8c3501df5112"
 
 [metadata.files]
 aiohttp = [
@@ -306,6 +317,9 @@ colorama = [
 flask = [
     {file = "Flask-2.0.2-py3-none-any.whl", hash = "sha256:cb90f62f1d8e4dc4621f52106613488b5ba826b2e1e10a33eac92f723093ab6a"},
     {file = "Flask-2.0.2.tar.gz", hash = "sha256:7b2fb8e934ddd50731893bdcdb00fc8c0315916f9fcd50d22c7cc1a95ab634e2"},
+]
+giphypop = [
+    {file = "giphypop-0.3.tar.gz", hash = "sha256:8dbdffa520be21dff4f7415913c024bca100458fbb19aea878942cff4ab903f1"},
 ]
 idna = [
     {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},

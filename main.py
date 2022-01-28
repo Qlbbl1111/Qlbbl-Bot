@@ -4,12 +4,12 @@ from keep_alive import keep_alive
 from discord.ext import commands
 import random
 import requests
-
+import giphypop
+from giphypop import translate
 
 token = os.environ['token']
 author_id = os.environ['author_id']
-
-dancers = ['https://media.giphy.com/media/tsX3YMWYzDPjAARfeg/giphy.gif', 'https://media.giphy.com/media/14qb1Uhf40ndw4/giphy.gif', 'https://media.giphy.com/media/l2QZSjo0lwEMC0GVG/giphy.gif', 'https://media.giphy.com/media/5xaOcLGvzHxDKjufnLW/giphy.gif']
+api_key= os.environ['api_key']
 
 #Command prefix.
 bot = commands.Bot(
@@ -39,10 +39,33 @@ async def test_error(ctx, error):
 #Random dance command.
 @bot.command(name='dance', help='Sends random dance gif.')
 async def dance(ctx):
-    await ctx.send(random.sample(dancers, 1)[0])
+    dance_gif = translate('Dance', api_key=api_key)
+    await ctx.send(dance_gif.bitly)
 
 @dance.error
 async def dance_error(ctx, error):
+    if isinstance(error, commands.BadArgument):
+        await ctx.send('Error: Something went wrong.')
+
+#Random spin command.
+@bot.command(name='spin', help='Sends random spin gif.')
+async def spin(ctx):
+    spin_gif = translate('Spin', api_key=api_key)
+    await ctx.send(spin_gif.bitly)
+
+@dance.error
+async def spin_error(ctx, error):
+    if isinstance(error, commands.BadArgument):
+        await ctx.send('Error: Something went wrong.')
+
+#Random hazbin gif command.
+@bot.command(name='hazbin', help='Sends random hazbin hotel gif.')
+async def hazbin(ctx):
+    hazbin_gif = translate(phrase='hazbin hotel', api_key=api_key)
+    await ctx.send(hazbin_gif.bitly)
+
+@hazbin.error
+async def hazbin_error(ctx, error):
     if isinstance(error, commands.BadArgument):
         await ctx.send('Error: Something went wrong.')
 

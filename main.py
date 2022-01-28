@@ -3,14 +3,13 @@ import discord
 from keep_alive import keep_alive
 from discord.ext import commands
 import random
+import requests
 
 
 token = os.environ['token']
 author_id = os.environ['author_id']
 
 dancers = ['https://media.giphy.com/media/tsX3YMWYzDPjAARfeg/giphy.gif', 'https://media.giphy.com/media/14qb1Uhf40ndw4/giphy.gif', 'https://media.giphy.com/media/l2QZSjo0lwEMC0GVG/giphy.gif', 'https://media.giphy.com/media/5xaOcLGvzHxDKjufnLW/giphy.gif']
-
-insults = [' smells like rotten fish.', ' is kind of like Jim Carrey\'s grinch; but uglier and more of a dick.', ', fuck you.', ' \"little ho, little bitch, suck my 5.3\" dick\"', ', you know what i did last night? Ya that\'s right, I fucked your mom.', ' Go back to where you came from. You should go climb right back into your dad\'s hairy ballsack you ugly mofo.', ' Calling all men/women: If you think a blob fish is hot, then you\'ll love this person. \nhttps://media.giphy.com/media/QGBWk7DnckEN2/giphy.gif ']
 
 #Command prefix.
 bot = commands.Bot(
@@ -29,7 +28,8 @@ async def on_ready():  # When the bot is ready
 #Test
 @bot.command(name='test', help='Tests the bot.')
 async def test(ctx, *, arg):
-    await ctx.send(arg)
+  print(arg)
+  await ctx.send(arg)
 
 @test.error
 async def test_error(ctx, error):
@@ -58,14 +58,28 @@ async def yell_error(ctx, error):
 
 
 #Insult command
-@bot.command(name='insult', help='Insult another member.')
-async def insult(ctx, *, member:discord.Member):
-  await ctx.send(f"<@{member.id}>{random.sample(insults, 1)[0]}")
+@bot.command(name='insult', help='Insult another member. Mention y/n. By defult it mentions the other user')
+async def insult(ctx, member:discord.Member, *mention: bool):
+  if mention in ('yes', 'y', 'true', 't', 'enable', 'on'):
+    return True
+  elif mention in ('no', 'n', 'false', 'f', 'disable', 'off'):
+    return False
+
+  if mention == True or mention == ():
+    insulted = f"<@{member.id}>"
+    response = requests.get("https://insult.mattbas.org/api/insult.txt")
+    response_text = response.text.replace("Y", "y", 1)
+    await ctx.send(f"{insulted} {response_text}.")
+  else:
+    insulted = f"{member.nick}"
+    response = requests.get("https://insult.mattbas.org/api/insult.txt")
+    response_text = response.text.replace("Y", "y", 1)
+    await ctx.send(f"{insulted} {response_text}.")
 
 @insult.error
 async def insult_error(ctx, error):
     if isinstance(error, commands.BadArgument):
-        await ctx.send('Error: There is no member by that name.')
+        await ctx.send('Error: Syntax')
 
 extensions = [
 	'cogs.cog_example'  # Same name as it would be if you were importing it

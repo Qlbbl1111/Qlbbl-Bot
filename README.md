@@ -3,6 +3,7 @@
 Discord bot with some random features that I wanted.
 
 **Commands:**
+
   dance - Sends random dance gif.
 
   hazbin - Sends random hazbin hotel gif.
